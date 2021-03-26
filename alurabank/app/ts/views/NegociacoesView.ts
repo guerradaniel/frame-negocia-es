@@ -1,5 +1,14 @@
 class NegociacoesView {
 
+    private _elemento: Element
+
+    constructor(seletor: string) {
+        this._elemento = document.querySelector(seletor)
+    }
+
+    update(): void {
+        this._elemento.innerHTML = this.template()
+    }
 
     template(): string {
 
