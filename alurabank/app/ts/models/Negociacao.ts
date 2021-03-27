@@ -1,10 +1,9 @@
 export class Negociacao {
 
-
     constructor(
-        private _data: Date,
-        private _quantidade: number,
-        private _valor: number
+        readonly _data: Date,
+        readonly _quantidade: number,
+        readonly _valor: number
     ) { }
 
     get data() {
