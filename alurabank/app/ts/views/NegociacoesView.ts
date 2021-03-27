@@ -1,4 +1,4 @@
-class NegociacoesView extends View {
+class NegociacoesView extends View<Negociacoes>{
 
     update(model: Negociacoes) {
 
