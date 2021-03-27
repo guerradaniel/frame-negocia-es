@@ -1,5 +1,3 @@
-declare var $: any
-
 abstract class View<T>{
 
     private _elemento: JQuery
