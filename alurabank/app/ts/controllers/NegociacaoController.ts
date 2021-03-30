@@ -53,15 +53,15 @@ export class NegociacaoController {
     @Throttle()
     importaDados() {
 
-        function isOK(res: Response) {
+
+
+        this._service.obterNegociacoes(res => {
             if (res.ok) {
                 return res
             } else {
                 throw new Error(res.statusText)
             }
-        }
-
-        this._service.obterNegociacoes(isOK)
+        })
             .then(negociacoes => {
                 negociacoes.forEach(negociacao =>
                     this._negociacoes.adiciona(negociacao))
