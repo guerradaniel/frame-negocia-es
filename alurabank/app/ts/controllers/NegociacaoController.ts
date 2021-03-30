@@ -1,17 +1,17 @@
 import { NegociacoesView, MensagemView } from '../views/index';
 import { Negociacoes, Negociacao, NegociacaoParcial } from '../models/index';
-import { domInject } from '../helpers/decorators/index'
+import { DomInject, Throttle } from '../helpers/decorators/index'
 
 
-
+let timer = 0
 export class NegociacaoController {
-    @domInject('#data')
+    @DomInject('#data')
     private _inputData: JQuery
 
-    @domInject('#quantidade')
+    @DomInject('#quantidade')
     private _inputQuantidade: JQuery
 
-    @domInject('#valor')
+    @DomInject('#valor')
     private _inputValor: JQuery
 
     private _negociacoes = new Negociacoes()
@@ -23,8 +23,8 @@ export class NegociacaoController {
         this._negociacoesView.update(this._negociacoes)
     }
 
-    adiciona(event: Event) {
-        event.preventDefault()
+    @Throttle()
+    adiciona() {
 
         let data = new Date(this._inputData.val().replace(/-/g, ','))
 
@@ -48,7 +48,7 @@ export class NegociacaoController {
     private _ehDiaUtil(data: Date) {
         return data.getDay() != DiaDaSemana.Sabado && data.getDay() != DiaDaSemana.Domingo
     }
-
+    @Throttle()
     importaDados() {
 
         function isOK(res: Response) {

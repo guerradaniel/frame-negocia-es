@@ -1,7 +1,7 @@
 System.register([], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    function domInject(seletor) {
+    function DomInject(seletor) {
         return function (target, key) {
             let elemento;
             const getter = () => {
@@ -16,7 +16,7 @@ System.register([], function (exports_1, context_1) {
             });
         };
     }
-    exports_1("domInject", domInject);
+    exports_1("DomInject", DomInject);
     return {
         setters: [],
         execute: function () {

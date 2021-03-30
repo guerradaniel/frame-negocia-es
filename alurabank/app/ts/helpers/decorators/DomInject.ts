@@ -1,4 +1,4 @@
-export function domInject(seletor: string) {
+export function DomInject(seletor: string) {
     return function (target: any, key: string) {
 
         let elemento: JQuery
