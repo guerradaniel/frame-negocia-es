@@ -2,7 +2,7 @@ import { NegociacoesView, MensagemView } from '../views/index';
 import { Negociacoes, Negociacao, NegociacaoParcial } from '../models/index';
 import { DomInject, Throttle } from '../helpers/decorators/index'
 import { NegociacaoService } from '../services/index'
-
+import { imprime } from '../helpers/index'
 
 let timer = 0
 export class NegociacaoController {
@@ -41,7 +41,9 @@ export class NegociacaoController {
             parseInt(this._inputValor.val())
         )
 
+
         this._negociacoes.adiciona(negociacao)
+        imprime(negociacao, this._negociacoes)
         this._negociacoesView.update(this._negociacoes)
         this._mensagemView.update('Negociação adicionada com sucesso');
 
