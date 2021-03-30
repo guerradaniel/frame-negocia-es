@@ -52,32 +52,38 @@ export class NegociacaoController {
     private _ehDiaUtil(data: Date) {
         return data.getDay() != DiaDaSemana.Sabado && data.getDay() != DiaDaSemana.Domingo
     }
+
     @Throttle()
-    importaDados() {
+    async importaDados() {
+
+        try {
+
+            const negociacoesParaImportar = await this._service
+                .obterNegociacoes(res => {
+                    if (res.ok) {
+                        return res
+                    } else {
+                        throw new Error(res.statusText)
+                    }
+                })
+
+
+            const negociacoesImportadas = this._negociacoes.paraArray()
+
+            negociacoesParaImportar.filter(dado =>
+                !negociacoesImportadas.some(jaImportada =>
+                    dado.ehIgual(jaImportada)))
+
+                .forEach(negociacao =>
+                    this._negociacoes.adiciona(negociacao))
+            this._negociacoesView.update(this._negociacoes)
+
+        } catch (err) {
+            this._mensagemView.update(err.message)
+        }
 
 
 
-        this._service.obterNegociacoes(res => {
-            if (res.ok) {
-                return res
-            } else {
-                throw new Error(res.statusText)
-            }
-        })
-            .then(negociacoesParaImportar => {
-
-                const negociacoesImportadas = this._negociacoes.paraArray()
-
-                negociacoesParaImportar.filter(dado =>
-                    !negociacoesImportadas.some(jaImportada =>
-                        dado.ehIgual(jaImportada)))
-
-                    .forEach(negociacao =>
-                        this._negociacoes.adiciona(negociacao))
-                this._negociacoesView.update(this._negociacoes)
-            }).catch(err => {
-                this._mensagemView.update(err.message)
-            })
 
     }
 }
