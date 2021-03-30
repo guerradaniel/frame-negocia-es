@@ -1,5 +1,5 @@
 import { NegociacoesView, MensagemView } from '../views/index';
-import { Negociacoes, Negociacao, NegociacaoParcial } from '../models/index';
+import { Negociacoes, Negociacao, NegociacaoParcial, Igualavel } from '../models/index';
 import { DomInject, Throttle } from '../helpers/decorators/index'
 import { NegociacaoService } from '../services/index'
 import { imprime } from '../helpers/index'
@@ -41,10 +41,12 @@ export class NegociacaoController {
             parseInt(this._inputValor.val())
         )
 
+        if ()
 
-        this._negociacoes.adiciona(negociacao)
+            this._negociacoes.adiciona(negociacao)
         imprime(negociacao, this._negociacoes)
         this._negociacoesView.update(this._negociacoes)
+
         this._mensagemView.update('Negociação adicionada com sucesso');
 
     }
@@ -64,9 +66,16 @@ export class NegociacaoController {
                 throw new Error(res.statusText)
             }
         })
-            .then(negociacoes => {
-                negociacoes.forEach(negociacao =>
-                    this._negociacoes.adiciona(negociacao))
+            .then(negociacoesParaImportar => {
+
+                const negociacoesImportadas = this._negociacoes.paraArray()
+
+                negociacoesParaImportar.filter(dado =>
+                    !negociacoesImportadas.some(jaImportada =>
+                        dado.ehIgual(jaImportada)))
+
+                    .forEach(negociacao =>
+                        this._negociacoes.adiciona(negociacao))
                 this._negociacoesView.update(this._negociacoes)
 
             })
