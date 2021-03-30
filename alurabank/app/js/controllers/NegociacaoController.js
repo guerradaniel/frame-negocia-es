@@ -60,9 +60,13 @@ System.register(["../views/index", "../models/index", "../helpers/decorators/ind
                             throw new Error(res.statusText);
                         }
                     })
-                        .then(negociacoes => {
-                        negociacoes.forEach(negociacao => this._negociacoes.adiciona(negociacao));
+                        .then(negociacoesParaImportar => {
+                        const negociacoesImportadas = this._negociacoes.paraArray();
+                        negociacoesParaImportar.filter(dado => !negociacoesImportadas.some(jaImportada => dado.ehIgual(jaImportada)))
+                            .forEach(negociacao => this._negociacoes.adiciona(negociacao));
                         this._negociacoesView.update(this._negociacoes);
+                    }).catch(err => {
+                        this._mensagemView.update(err.message);
                     });
                 }
             };
